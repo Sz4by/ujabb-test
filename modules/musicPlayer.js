@@ -1,3 +1,5 @@
+// modules/musicPlayer.js
+
 const { joinVoiceChannel, createAudioPlayer, createAudioResource, AudioPlayerStatus, NoSubscriberBehavior, getVoiceConnection } = require('@discordjs/voice');
 const playdl = require('play-dl');
 
@@ -52,7 +54,7 @@ async function playNext(guild, textChannel) {
 
     player.once(AudioPlayerStatus.Playing, () => {
         textChannel.send({
-            embeds: [{
+            embeds: [ {
                 color: 'Blue',
                 title: 'Most játszom:',
                 description: `[${song.title}](${song.url})`,
