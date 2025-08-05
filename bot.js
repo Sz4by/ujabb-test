@@ -8,7 +8,7 @@ const fs = require('fs');
 const path = require('path');
 
 // Modulok importálása
-const musicPlayer = require('./modules/musicPlayer.js'); // Zenelejátszó logika
+const musicPlayer = require('./modules/musicPlayer.js'); // Zenelejátszó logika importálása
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -68,48 +68,6 @@ client.once('ready', async () => {
     console.error('❌ Slash parancs regisztráció hiba:', error);
   }
 
-  // Gépelés jelzése
-  const typingChannelIds = [
-    '1158023970872889354',
-    '1158023983816515685',
-  ];
-  let currentTypingIndex = 0;
-  setInterval(() => {
-    const channelId = typingChannelIds[currentTypingIndex];
-    const channel = client.channels.cache.get(channelId);
-    if (channel) channel.sendTyping().catch(console.error);
-    currentTypingIndex = (currentTypingIndex + 1) % typingChannelIds.length;
-  }, 9000);
-
-  // Automatikus státusz váltogatás dnd és idle között
-  let toggleStatus = false;
-  setInterval(() => {
-    toggleStatus = !toggleStatus;
-    const newStatus = toggleStatus ? 'dnd' : 'idle';
-    client.user.setPresence({ status: newStatus });
-    console.log(`Státusz váltva: ${newStatus}`);
-  }, 5 * 1000);
-
-  // Egyedi státusz szövegek
-  const customStatuses = [
-    "💻 Kódolok éppen...",
-    "🚀 Online vagyok, ne zavarj!",
-    "🌙 Álmos vagyok, de elérhető!",
-    "🔥 A legjobb bot vagyok!",
-    "😎 Modern státusz! Szaby edition."
-  ];
-  let customStatusIndex = 0;
-  setInterval(() => {
-    client.user.setPresence({
-      activities: [{
-        name: customStatuses[customStatusIndex],
-        type: 4
-      }],
-      status: client.presence?.status || 'online'
-    });
-    customStatusIndex = (customStatusIndex + 1) % customStatuses.length;
-  }, 15000);
-
   // Modulok betöltése
   const modulesPath = path.join(__dirname, 'modules');
   if (fs.existsSync(modulesPath)) {
@@ -164,6 +122,7 @@ client.on('presenceUpdate', (oldPresence, newPresence) => {
   }
 });
 
+// Status endpoint
 app.get('/status', (req, res) => {
   res.json({
     status: currentStatus,
@@ -172,6 +131,7 @@ app.get('/status', (req, res) => {
   });
 });
 
+// Root endpoint, HTML oldal megjelenítése
 app.get('/', (req, res) => {
   res.send(`
     <html>
