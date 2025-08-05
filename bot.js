@@ -1,3 +1,5 @@
+// bot.js
+
 require('dotenv').config();
 
 const express = require('express');
@@ -53,14 +55,12 @@ let statusChangeTime = null;
 client.once('ready', async () => {
   console.log(`Bot elindult: ${client.user.tag}`);
 
-  // Guild ID: Cseréld ki a saját szervered ID-jával
   const guildId = '1110172753308422184'; // Itt a guild ID
 
-  // Slash parancsok regisztrálása egy szerverre (guild-id használatával)
   try {
     const rest = new REST({ version: '10' }).setToken(process.env.DISCORD_BOT_TOKEN);
     await rest.put(
-      Routes.applicationGuildCommands(client.user.id, guildId), // Itt használjuk a guildId-t
+      Routes.applicationGuildCommands(client.user.id, guildId),
       { body: commands }
     );
     console.log('✅ Slash parancsok regisztrálva a szerverre.');
@@ -91,9 +91,8 @@ client.on('interactionCreate', async (interaction) => {
   if (!command) return;
 
   try {
-    // Ellenőrizzük, hogy az interakció már le lett-e válaszolva
     if (!interaction.replied) {
-      await interaction.deferReply(); // Késleltetett válasz
+      await interaction.deferReply();
     }
     await command.execute(interaction);
   } catch (error) {
@@ -108,11 +107,11 @@ client.on('interactionCreate', async (interaction) => {
 
 // Zenelejátszó parancsok
 async function play(guild, song, interaction) {
-  await musicPlayer.playSong(guild, song, interaction);  // Az objektumból meghívott playSong függvény
+  await musicPlayer.playSong(guild, song, interaction);
 }
 
 async function joinVoiceChannel(interaction) {
-  await musicPlayer.joinChannel(interaction);  // Az objektumból meghívott joinChannel függvény
+  await musicPlayer.joinChannel(interaction);
 }
 
 // Status endpoint
@@ -126,9 +125,6 @@ app.get('/status', (req, res) => {
 
 // Root endpoint, HTML oldal megjelenítése
 app.get('/', (req, res) => {
-  // Az avatar URL előre generálásra került
-  const avatarUrl = currentUserData ? `https://cdn.discordapp.com/avatars/${userId}/${currentUserData.avatar}.png` : "";
-
   res.send(`
     <html>
       <head><title>Discord Státusz</title></head>
@@ -137,7 +133,7 @@ app.get('/', (req, res) => {
         <div id="status">
           <p>Status: <span id="status-text">${currentStatus}</span></p>
           <p id="username">Felhasználó: ${currentUserData ? currentUserData.username : "Ismeretlen"}</p>
-          <img src="${avatarUrl}" alt="Profilkép" width="100" height="100" />
+          <img src="${currentUserData ? \`https://cdn.discordapp.com/avatars/${userId}/${currentUserData.avatar}.png\` : ""}" alt="Profilkép" width="100" height="100" />
           <p id="status-time">Státusz óta: --</p>
         </div>
         <script>
