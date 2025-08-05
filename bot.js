@@ -8,7 +8,7 @@ const fs = require('fs');
 const path = require('path');
 
 // Modulok importálása
-const musicPlayer = require('./modules/musicPlayer.js'); // A helyes fájlútvonal a modules mappában lévő musicPlayer.js fájlhoz
+const musicPlayer = require('./modules/musicPlayer.js');  // Helyes importálás a modules mappában lévő musicPlayer.js fájlhoz
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -108,11 +108,11 @@ client.on('interactionCreate', async interaction => {
 
 // Zenelejátszó parancsok
 async function play(guild, song, interaction) {
-  await musicPlayer.playSong(guild, song, interaction); // A playSong függvény meghívása az objektumból
+  await musicPlayer.playSong(guild, song, interaction);  // Az objektumból meghívott playSong függvény
 }
 
 async function joinVoiceChannel(interaction) {
-  await musicPlayer.joinChannel(interaction); // A joinChannel függvény meghívása az objektumból
+  await musicPlayer.joinChannel(interaction);  // Az objektumból meghívott joinChannel függvény
 }
 
 // Status endpoint
