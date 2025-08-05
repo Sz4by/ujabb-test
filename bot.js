@@ -54,14 +54,17 @@ let statusChangeTime = null;
 client.once('ready', async () => {
   console.log(`Bot elindult: ${client.user.tag}`);
 
-  // Slash parancsok regisztrálása
+  // Guild ID: Cseréld ki a saját szervered ID-jával
+  const guildId = '1110172753308422184'; // Itt a guild ID
+
+  // Slash parancsok regisztrálása egy szerverre (guild-id használatával)
   try {
     const rest = new REST({ version: '10' }).setToken(process.env.DISCORD_BOT_TOKEN);
     await rest.put(
-      Routes.applicationCommands(client.user.id),
+      Routes.applicationGuildCommands(client.user.id, guildId), // Itt használjuk a guildId-t
       { body: commands }
     );
-    console.log('✅ Slash parancsok regisztrálva.');
+    console.log('✅ Slash parancsok regisztrálva a szerverre.');
   } catch (error) {
     console.error('❌ Slash parancs regisztráció hiba:', error);
   }
