@@ -8,7 +8,7 @@ const fs = require('fs');
 const path = require('path');
 
 // Modulok importálása
-const musicPlayer = require('/modules/musicPlayer.js'); // Zenelejátszó logika importálása
+const musicPlayer = require('./modules/musicPlayer.js'); // Helyes fájlútvonal a modules mappában lévő musicPlayer.js fájlhoz
 
 const app = express();
 const PORT = process.env.PORT || 3000;
