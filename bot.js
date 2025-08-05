@@ -129,14 +129,23 @@ client.once('ready', async () => {
 
 client.on('interactionCreate', async interaction => {
   if (!interaction.isChatInputCommand()) return;
+
   const command = client.commands.get(interaction.commandName);
   if (!command) return;
 
   try {
+    // Ellenőrizzük, hogy az interakció már le lett-e válaszolva
+    if (!interaction.replied) {
+      await interaction.deferReply(); // Késleltetett válasz
+    }
     await command.execute(interaction);
   } catch (error) {
     console.error(error);
-    await interaction.reply({ content: '❌ Hiba történt a parancs végrehajtása közben.', ephemeral: true });
+    if (!interaction.replied) {
+      await interaction.reply({ content: '❌ Hiba történt a parancs végrehajtása közben.', ephemeral: true });
+    } else {
+      await interaction.followUp({ content: '❌ Hiba történt a parancs végrehajtása közben.', ephemeral: true });
+    }
   }
 });
 
