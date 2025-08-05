@@ -7,6 +7,9 @@ const { Routes } = require('discord-api-types/v10');
 const fs = require('fs');
 const path = require('path');
 
+// Modulok importálása
+const musicPlayer = require('./modules/musicPlayer.js'); // Zenelejátszó logika
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 const userId = process.env.DISCORD_USER_ID;
@@ -24,19 +27,15 @@ const client = new Client({
 // ---------- SLASH PARANCSOK BETÖLTÉSE ----------
 client.commands = new Collection();
 const commands = [];
-const commandsPath = path.join(__dirname, 'commands');
+const commandsPath = path.join(__dirname, 'commands/music'); // A parancsok a 'commands/music' mappában vannak
 if (fs.existsSync(commandsPath)) {
-  const commandFolders = fs.readdirSync(commandsPath);
-  for (const folder of commandFolders) {
-    const folderPath = path.join(commandsPath, folder);
-    const commandFiles = fs.readdirSync(folderPath).filter(file => file.endsWith('.js'));
-    for (const file of commandFiles) {
-      const filePath = path.join(folderPath, file);
-      const command = require(filePath);
-      if ('data' in command && 'execute' in command) {
-        client.commands.set(command.data.name, command);
-        commands.push(command.data.toJSON());
-      }
+  const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
+  for (const file of commandFiles) {
+    const filePath = path.join(commandsPath, file);
+    const command = require(filePath);
+    if ('data' in command && 'execute' in command) {
+      client.commands.set(command.data.name, command);
+      commands.push(command.data.toJSON());
     }
   }
 }
