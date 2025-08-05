@@ -106,21 +106,14 @@ client.on('interactionCreate', async interaction => {
   }
 });
 
-client.on('presenceUpdate', (oldPresence, newPresence) => {
-  if (!newPresence || !newPresence.user) return;
-  if (newPresence.user.id === userId) {
-    currentStatus = newPresence.status || 'offline';
-    statusChangeTime = new Date();
+// Zenelejátszó parancsok
+async function play(guild, song, interaction) {
+  await musicPlayer.playSong(guild, song, interaction); // A playSong függvény meghívása az objektumból
+}
 
-    currentUserData = {
-      username: newPresence.user.username,
-      discriminator: newPresence.user.discriminator,
-      avatar: newPresence.user.avatar,
-      activities: newPresence.activities || []
-    };
-    console.log(`Státusz változott: ${currentStatus}`);
-  }
-});
+async function joinVoiceChannel(interaction) {
+  await musicPlayer.joinChannel(interaction); // A joinChannel függvény meghívása az objektumból
+}
 
 // Status endpoint
 app.get('/status', (req, res) => {
