@@ -8,7 +8,7 @@ const fs = require('fs');
 const path = require('path');
 
 // Modulok importálása
-const musicPlayer = require('./modules/musicPlayer.js');  // Helyes importálás a modules mappában lévő musicPlayer.js fájlhoz
+const musicPlayer = require('./modules/musicPlayer');  // A helyes importálás a modules mappában lévő musicPlayer.js fájlhoz
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -131,7 +131,7 @@ app.get('/', (req, res) => {
         <div id="status">
           <p>Status: <span id="status-text">${currentStatus}</span></p>
           <p id="username">Felhasználó: ${currentUserData ? currentUserData.username : "Ismeretlen"}</p>
-          <img src="${currentUserData ? `https://cdn.discordapp.com/avatars/${userId}/${currentUserData.avatar}.png` : ""}" alt="Profilkép" width="100" height="100" />
+          <img src="${currentUserData ? \`https://cdn.discordapp.com/avatars/${userId}/${currentUserData.avatar}.png\` : ""}" alt="Profilkép" width="100" height="100" />
           <p id="status-time">Státusz óta: --</p>
         </div>
         <script>
