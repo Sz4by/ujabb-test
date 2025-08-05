@@ -1,11 +1,10 @@
-// modules/musicPlayer.js
-
 const { joinVoiceChannel, createAudioPlayer, createAudioResource, AudioPlayerStatus, NoSubscriberBehavior, getVoiceConnection } = require('@discordjs/voice');
 const playdl = require('play-dl');
 
 const queue = new Map();
 const players = new Map();
 
+// Képzett függvények az alap műveletekhez
 function getQueue(guildId) {
     if (!queue.has(guildId)) queue.set(guildId, []);
     return queue.get(guildId);
@@ -23,7 +22,7 @@ function getPlayer(guildId) {
     return players.get(guildId);
 }
 
-// A zene lejátszása
+// A zene lejátszása a várólistáról
 async function playNext(guild, textChannel) {
     const queue = getQueue(guild.id);
     if (!queue.length) {
@@ -85,6 +84,7 @@ module.exports = {
     getQueue,
     getPlayer,
     playNext,
+    // Belépés a hangcsatornába
     joinChannel: async function (interaction) {
         return joinVoiceChannel({
             channelId: interaction.member.voice.channel.id,
@@ -92,6 +92,7 @@ module.exports = {
             adapterCreator: interaction.guild.voiceAdapterCreator,
         });
     },
+    // Zene lejátszása
     playSong: async function (guild, song, interaction) {
         await playNext(guild, interaction.channel);
     }
