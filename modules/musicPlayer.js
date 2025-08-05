@@ -6,6 +6,7 @@ const queue = new Map();
 module.exports = {
     queue,
 
+    // A zene lejátszása
     async playSong(guild, song, interaction) {
         const serverQueue = queue.get(guild.id);
 
@@ -27,6 +28,7 @@ module.exports = {
         interaction.followUp(`🎶 Most játszva: **${song.title}**`);
     },
 
+    // Hangcsatornába belépés
     joinChannel(interaction) {
         return joinVoiceChannel({
             channelId: interaction.member.voice.channel.id,
