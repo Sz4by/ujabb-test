@@ -126,6 +126,9 @@ app.get('/status', (req, res) => {
 
 // Root endpoint, HTML oldal megjelenítése
 app.get('/', (req, res) => {
+  // Az avatar URL előre generálásra került
+  const avatarUrl = currentUserData ? `https://cdn.discordapp.com/avatars/${userId}/${currentUserData.avatar}.png` : "";
+
   res.send(`
     <html>
       <head><title>Discord Státusz</title></head>
@@ -134,7 +137,7 @@ app.get('/', (req, res) => {
         <div id="status">
           <p>Status: <span id="status-text">${currentStatus}</span></p>
           <p id="username">Felhasználó: ${currentUserData ? currentUserData.username : "Ismeretlen"}</p>
-          <img src="${currentUserData ? \`https://cdn.discordapp.com/avatars/${userId}/${currentUserData.avatar}.png\` : ""}" alt="Profilkép" width="100" height="100" />
+          <img src="${avatarUrl}" alt="Profilkép" width="100" height="100" />
           <p id="status-time">Státusz óta: --</p>
         </div>
         <script>
