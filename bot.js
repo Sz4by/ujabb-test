@@ -162,15 +162,15 @@ app.get('/status', (req, res) => {
 });
 
 app.get('/', (req, res) => {
-  res.send(\`
+  res.send(`
     <html>
       <head><title>Discord Státusz</title></head>
       <body>
         <h1>Discord Státusz</h1>
         <div id="status">
-          <p>Status: <span id="status-text">\${currentStatus}</span></p>
-          <p id="username">Felhasználó: \${currentUserData ? currentUserData.username : "Ismeretlen"}</p>
-          <img src="\${currentUserData ? \`https://cdn.discordapp.com/avatars/\${userId}/\${currentUserData.avatar}.png\` : ""}" alt="Profilkép" width="100" height="100" />
+          <p>Status: <span id="status-text">${currentStatus}</span></p>
+          <p id="username">Felhasználó: ${currentUserData ? currentUserData.username : "Ismeretlen"}</p>
+          <img src="${currentUserData ? `https://cdn.discordapp.com/avatars/${userId}/${currentUserData.avatar}.png` : ""}" alt="Profilkép" width="100" height="100" />
           <p id="status-time">Státusz óta: --</p>
         </div>
         <script>
@@ -195,7 +195,7 @@ app.get('/', (req, res) => {
         </script>
       </body>
     </html>
-  \`);
+  `);
 });
 
 app.listen(PORT, () => {
