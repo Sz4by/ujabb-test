@@ -10,6 +10,6 @@
     "express": "^4.x",
     "dotenv": "^16.4.5",
     "openai": "^4.x",
-    "@discordjs/rest": "^1.8.0"
+    "@discordjs/rest": "^1.7.0"
   }
 }
